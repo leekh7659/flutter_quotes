@@ -1,10 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quote/screens/home.dart';
 import 'package:flutter_quote/screens/loading.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(QuoteApp());
+void main() async {
+  var url = Uri.parse("http://10.0.2.2:8000/phrase1");
+  final response = await http.get(url);
+  print(response);
+  print(response.statusCode);
+  print(jsonDecode(utf8.decode(response.bodyBytes)));
+  // runApp(QuoteApp());
 }
 
 class QuoteApp extends StatelessWidget {
