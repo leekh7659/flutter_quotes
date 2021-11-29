@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quote/models/models.dart';
+import 'package:flutter_quote/providers/task_providers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,19 +11,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<Phrase1> phrase1;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    phrase1 = fetchPhrase1();
-  }
-
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
-    var screenWidth = MediaQuery.of(context).size.width;
+    var M = MediaQuery.of(context);
+    var screenHeight =
+        M.size.height - M.padding.top - AppBar().preferredSize.height;
+    var screenWidth = M.size.width;
+    print('screenHeight : ${M.size.height}');
+    print('screenWidth : ${M.size.width}');
+    print('screenPaddingTop : ${M.padding.top}');
+    print('AppBarHeight : ${AppBar().preferredSize.height}');
     final List<String> ImageList = [
       'https://www.muscleandfitness.com/wp-content/uploads/2019/05/man-gym-lat-pulldown-1109.jpg?w=1109&h=614&crop=1&quality=86&strip=all',
       'https://www.sponser.com/media/catalog/product/h/e/header_pre_workout_booster.png',
@@ -28,27 +28,38 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Scaffold(
+      extendBodyBehindAppBar: false,
+      backgroundColor: Color(0xff212529),
       appBar: AppBar(
-        title: Text('헬창 명언 모음집'),
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        elevation: 0,
+        title: Text(
+          '헬창 명언 모음집',
+          style: TextStyle(color: Colors.amber, fontWeight: FontWeight.w600),
+        ),
       ),
       body: Column(
         children: [
           Container(
-            height: screenHeight * 0.3,
+            height: screenHeight * 0.35,
             child: Swiper(
               itemCount: ImageList.length,
               pagination: new SwiperPagination(),
-              control: new SwiperControl(),
-              autoplay: false,
-              autoplayDelay: 4000,
+              // control: new SwiperControl(),
+              autoplay: true,
+              autoplayDelay: 5000,
               itemBuilder: (context, index) {
                 return Stack(
                   children: <Widget>[
                     Center(
                       child: Image.network(
                         ImageList[index],
-                        height: screenHeight * 0.3,
+                        width: screenWidth,
+                        height: screenHeight * 0.35,
                         fit: BoxFit.cover,
+                        color: Colors.black54,
+                        colorBlendMode: BlendMode.darken,
                       ),
                     ),
                     Center(
@@ -63,33 +74,43 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-          Expanded(
-            // child: GridView.count(
-            //   // Create a grid with 2 columns. If you change the scrollDirection to
-            //   // horizontal, this produces 2 rows.
-            //   crossAxisCount: 2,
-            //   // Generate 100 widgets that display their index in the List.
-            //   children: List.generate(100, (index) {
-            //     return Center(
-            //       child: Text(
-            //         'Item $index',
-            //         style: Theme.of(context).textTheme.headline5,
-            //       ),
-            //     );
-            //   }),
-            // ),
-            child: FutureBuilder<Phrase1>(
-              future: phrase1,
-              builder: (context, snapshot) {
-                print(snapshot);
-                if (snapshot.hasData) {
-                  return Text(snapshot.data!.name);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-
-                return CircularProgressIndicator();
-              },
+          Container(
+            height: screenHeight * 0.65,
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Get.toNamed("/phrase1");
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      top: 20,
+                      bottom: 20,
+                    ),
+                    padding: EdgeInsets.all(20),
+                    height: (screenHeight * 0.6) * 0.2,
+                    decoration: BoxDecoration(
+                      color: Color(0xff343a40),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '위인 명언 모음집',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.keyboard_arrow_right_sharp,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
