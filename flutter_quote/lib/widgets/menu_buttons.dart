@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quote/providers/task_providers.dart';
+import 'package:flutter_quote/screens/stf_phrase1_screen.dart';
 import 'package:get/get.dart';
+import 'package:provider/src/provider.dart';
 
 class MenuButtons extends StatelessWidget {
   late final double screenHeight;
@@ -10,7 +13,8 @@ class MenuButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed("/phrase1");
+        // Get.toNamed("/phrase1");
+        Get.to(() => StfPhrase1Screen());
       },
       child: Container(
         margin: EdgeInsets.only(

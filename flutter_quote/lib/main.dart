@@ -15,30 +15,33 @@ class QuoteApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => QuotesProvider(),
-      child: GetMaterialApp(
-        getPages: [
-          GetPage(
-            name: '/home',
-            page: () => HomeScreen(),
-          ),
-          GetPage(
-            name: '/loading',
-            page: () => LoadingScreen(),
-          ),
-          GetPage(
-            name: '/phrase1',
-            page: () => Phrase1Screen(),
-          ),
-        ],
-        title: '헬스 명언 모음집',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    return GetMaterialApp(
+      getPages: [
+        GetPage(
+          name: '/home',
+          page: () => HomeScreen(),
         ),
-        home: HomeScreen(),
-        // home: LoadingScreen(),
+        GetPage(
+          name: '/loading',
+          page: () => LoadingScreen(),
+        ),
+        GetPage(
+          name: '/phrase1',
+          page: () => Phrase1Screen(),
+        ),
+      ],
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: child!,
+        );
+      },
+      title: '헬스 명언 모음집',
+      theme: ThemeData(
+        fontFamily: 'GowunDodum',
       ),
+      home: HomeScreen(),
+      // home: LoadingScreen(),
     );
   }
 }

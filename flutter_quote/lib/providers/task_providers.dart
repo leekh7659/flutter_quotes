@@ -18,7 +18,6 @@ class QuotesProvider extends ChangeNotifier {
     final response = await http.get(url);
     if (response.statusCode == 200) {
       var dataList = jsonDecode(utf8.decode(response.bodyBytes)) as List;
-      print(dataList);
       _phrase1 =
           dataList.map<Phrase1>((json) => Phrase1.fromJson(json)).toList();
       notifyListeners();
