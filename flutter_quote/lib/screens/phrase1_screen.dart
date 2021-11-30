@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quote/providers/task_providers.dart';
+import 'package:flutter_quote/widgets/pharse1_list.dart';
+import 'package:provider/provider.dart';
 
-class phrase1Screen extends StatelessWidget {
+class Phrase1Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('위인의 명언'),
+        title: Text('위인 명언집'),
       ),
-      body: Container(
-        child: GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
-          crossAxisCount: 2,
-          // Generate 100 widgets that display their index in the List.
-          children: List.generate(100, (index) {
-            return Center(
-              child: Text(
-                'Item $index',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            );
-          }),
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Consumer<QuotesProvider>(builder: (context, value, child) {
+              return Phrase1List(phrases1: value.allPhrase1);
+            }),
+          ),
+        ],
       ),
     );
   }

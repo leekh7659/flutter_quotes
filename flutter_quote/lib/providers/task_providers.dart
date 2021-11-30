@@ -9,16 +9,18 @@ class QuotesProvider extends ChangeNotifier {
     this.fetchQuotes();
   }
 
-  List<Phrase1> _Phrase1 = [];
-  UnmodifiableListView<Phrase1> get allSolutions =>
-      UnmodifiableListView(_Phrase1);
+  List<Phrase1> _phrase1 = [];
+  UnmodifiableListView<Phrase1> get allPhrase1 =>
+      UnmodifiableListView(_phrase1);
 
   fetchQuotes() async {
     var url = Uri.parse("http://10.0.2.2:8000/phrase1");
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
-      _Phrase1 = data.map<Phrase1>((json) => Phrase1.fromJson(json)).toList();
+      var dataList = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+      print(dataList);
+      _phrase1 =
+          dataList.map<Phrase1>((json) => Phrase1.fromJson(json)).toList();
       notifyListeners();
     }
   }
